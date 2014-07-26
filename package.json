@@ -1,0 +1,41 @@
+{
+  "name": "grunt-autoversion",
+  "description": "get version by git status, wirte to package.json",
+  "version": "master",
+  "homepage": "https://github.com/takumi4ichi/grunt-autoversion",
+  "author": {
+    "name": "takumi4ichi",
+    "email": "takumi4ichi@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/takumi4ichi/grunt-autoversion.git"
+  },
+  "bugs": {
+    "url": "https://github.com/takumi4ichi/grunt-autoversion/issues"
+  },
+  "licenses": [
+    {
+      "type": "BSD",
+      "url": "https://github.com/takumi4ichi/grunt-autoversion/blob/master/LICENSE"
+    }
+  ],
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "^0.9.2",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-nodeunit": "^0.3.3",
+    "grunt": "~0.4.5"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.5"
+  },
+  "keywords": [
+    "gruntplugin"
+  ]
+}
