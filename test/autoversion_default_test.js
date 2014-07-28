@@ -1,4 +1,3 @@
-
 'use strict';
 var grunt = require('grunt');
 
@@ -36,21 +35,8 @@ exports.autoversion = {
     child;
 
     child = exec('git status', function(error, stdout){
-        test.equal(packageVersion, stdout.match(/^On branch (?:.+\/)?(.+?)$/m)[1], 'default version equal');
-        test.done();
-    });
-
-  },
-  custom_options: function(test) {
-    test.expect(1);
-
-    var packageVersion = grunt.file.readJSON('./package.json').version;
-
-    var exec = require('child_process').exec,
-    child;
-
-    child = exec('git status', function(error, stdout){
-        test.equal(packageVersion, stdout.match(/^On branch (?:.+\/)?(.+?)$/m)[1], 'custom version equal');
+        var stdoutVersion = stdout.match(/^On branch (?:.+\/)?(.+?)$/m)[1];
+        test.equal(packageVersion, stdoutVersion, 'default version equal');
         test.done();
     });
 

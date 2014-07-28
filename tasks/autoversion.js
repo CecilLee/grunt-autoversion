@@ -17,7 +17,6 @@ module.exports = function(grunt) {
 
   grunt.registerMultiTask('autoversion', 'get version by git status, wirte to package.json', function() {
 
-
     var options = this.options({
         cmd: 'git status',
         regex: /^On branch (?:.+\/)?(.+?)$/m,
@@ -29,8 +28,8 @@ module.exports = function(grunt) {
         ]
     }),
     exec = require('child_process').exec,
-    child;
-
+    child,
+    done = this.async();
 
     child = exec(options.cmd, function (error, stdout, stderr) {
         var matches, pkg, fs = require('fs');
@@ -38,7 +37,6 @@ module.exports = function(grunt) {
             console.log('error:', error);
         }else{
             matches = stdout.match(options.regex);
-            console.log(matches);
             if (matches && matches[1]) {
                 options.updates.filter(function (update) {
                     if (!grunt.file.exists(update.file)) {
@@ -51,6 +49,7 @@ module.exports = function(grunt) {
                     pkg[update.field] = matches[1];
                     grunt.file.write(update.file, JSON.stringify(pkg, null, 2));
                 } );
+                done();
             }
         }
     });
