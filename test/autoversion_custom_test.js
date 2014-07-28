@@ -32,7 +32,13 @@ exports.autoversion = {
 
     var packageVersion = grunt.file.readJSON('./package.json').version;
 
-    test.equal(packageVersion, 'custom_errortest', 'custom version equal');
-    test.done();
+    var exec = require('child_process').exec,
+    child;
+
+    child = exec('git status', function(error, stdout){
+        var stdoutVersion = stdout.match(/^On branch (?:.+\/)?(.+?)$/m)[1];
+        test.equal(packageVersion, stdoutVersion, 'default version equal');
+        test.done();
+    });
   }
 };

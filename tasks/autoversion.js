@@ -20,6 +20,7 @@ module.exports = function(grunt) {
     var options = this.options({
         cmd: 'git status',
         regex: /^On branch (?:.+\/)?(.+?)$/m,
+        isVersionRegEx: /^\d+\.\d+\.\d+$/,
         updates: [
             {
                 file: 'package.json',
@@ -32,26 +33,29 @@ module.exports = function(grunt) {
     done = this.async();
 
     child = exec(options.cmd, function (error, stdout, stderr) {
-        var matches, pkg, fs = require('fs');
+        var matches, pkg, fs = require('fs'), version;
         if (error !== null) {
             console.log('error:', error);
         }else{
             matches = stdout.match(options.regex);
             if (matches && matches[1]) {
-                options.updates.filter(function (update) {
-                    if (!grunt.file.exists(update.file)) {
-                        return false;
-                    } else {
-                        return true;
-                    }
-                }).map(function(update) {
-                    pkg = grunt.file.readJSON(update.file);
-                    pkg[update.field] = matches[1];
-                    grunt.file.write(update.file, JSON.stringify(pkg, null, 2));
-                } );
-                done();
+                version = matches[1];
+                if (options.isVersionRegEx.test(version)) {
+                    options.updates.filter(function (update) {
+                        if (!grunt.file.exists(update.file)) {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }).map(function(update) {
+                        pkg = grunt.file.readJSON(update.file);
+                        pkg[update.field] = matches[1];
+                        grunt.file.write(update.file, JSON.stringify(pkg, null, 2));
+                    } );
+                }
             }
         }
+        done();
     });
 
   });
